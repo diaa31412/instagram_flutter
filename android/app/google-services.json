@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "372601830544",
+    "project_id": "instagram-3b14a",
+    "storage_bucket": "instagram-3b14a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:372601830544:android:39c42541f34877d87d2c15",
+        "android_client_info": {
+          "package_name": "com.example.instagram_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGxak-AVJl8v8fnKOMKCW3pzuvq3EzKMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
