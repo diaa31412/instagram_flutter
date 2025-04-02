@@ -5,6 +5,7 @@ import 'package:instagram_flutter/respnsive/mobileScreenLayout.dart';
 import 'package:instagram_flutter/respnsive/responsive_layout.dart';
 import 'package:instagram_flutter/respnsive/webScreenLayout.dart';
 import 'package:instagram_flutter/screens/loginScreen.dart';
+import 'package:instagram_flutter/screens/signupScreen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 
 void main() async {
@@ -46,7 +47,7 @@ class _MyAppState extends State<MyApp> {
       //   mobileScreenLayout: MobileScreenLayout(),
 
       // ),
-      home: LogInScreen(),
+      home: SignupScreen(),
     );
   }
 }
