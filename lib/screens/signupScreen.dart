@@ -1,6 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:instagram_flutter/resources/auth_methods.dart';
 import 'package:instagram_flutter/utils/colors.dart';
+import 'package:instagram_flutter/utils/utils.dart';
 import 'package:instagram_flutter/widgets/textFieldInput.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -15,6 +19,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _bioontroller = TextEditingController();
+  Uint8List? _image;
   @override
   void dispose() {
     // TODO: implement dispose
@@ -23,6 +28,23 @@ class _SignupScreenState extends State<SignupScreen> {
     _passController.dispose();
     _bioontroller.dispose();
     _userNameController.dispose();
+  }
+
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
+  }
+
+  void SignUpUser() async {
+    String res = await AuthMethod().signupUser(
+      email: _emailController.text,
+      password: _passController.text,
+      userName: _userNameController.text,
+      bio: _bioontroller.text,
+      file: _image!,
+    );
   }
 
   @override
@@ -44,12 +66,17 @@ class _SignupScreenState extends State<SignupScreen> {
               SizedBox(height: 64),
               Stack(
                 children: [
-                  CircleAvatar(
-                    radius: 64,
-                    backgroundImage: NetworkImage(
-                      'https://images.unsplash.com/photo-1742054294284-baa5691ede46?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyMnx8fGVufDB8fHx8fA%3D%3D',
-                    ),
-                  ),
+                  _image != null
+                      ? CircleAvatar(
+                        radius: 64,
+                        backgroundImage: MemoryImage(_image!),
+                      )
+                      : CircleAvatar(
+                        radius: 64,
+                        backgroundImage: NetworkImage(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpwxCN33LtdMLbWdhafc4HxabqpaU0qVbDxQ&s',
+                        ),
+                      ),
                   Positioned(
                     bottom: -10,
                     left: 80,
@@ -87,6 +114,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               SizedBox(height: 64),
               InkWell(
+                onTap: SignUpUser,
                 child: Container(
                   child: Text('SignUp'),
                   width: double.infinity,
