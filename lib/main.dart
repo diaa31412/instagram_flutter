@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_flutter/resources/auth_methods.dart';
 import 'package:instagram_flutter/respnsive/mobileScreenLayout.dart';
 import 'package:instagram_flutter/respnsive/responsive_layout.dart';
 import 'package:instagram_flutter/respnsive/webScreenLayout.dart';
@@ -42,12 +44,32 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: mobileBackgroundColor,
       ),
-      // home: ResponsiveLaout(
-      //   webScreenLayout: WebScreenLayout(),
-      //   mobileScreenLayout: MobileScreenLayout(),
-
-      // ),
-      home: LogInScreen(),
+      home: StreamBuilder(
+        //check the state of user
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          // if state connection active will show page layout
+          if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.hasData) {
+              return ResponsiveLaout(
+                webScreenLayout: WebScreenLayout(),
+                mobileScreenLayout: MobileScreenLayout(),
+              );
+              //if state connection has error will show the error for the user
+            } else if (snapshot.hasError) {
+              return Center(child: Text('${snapshot.error}'));
+            }
+          }
+          //check if the connection in waiting time will show this process
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(color: primaryColor),
+            );
+          }
+          // when we dont connection will return login page
+          return LogInScreen();
+        },
+      ),
     );
   }
 }
