@@ -15,7 +15,7 @@ class AuthMethod {
     required String password,
     required String userName,
     required String bio,
-    required Uint8List file,
+    //required Uint8List file,
   }) async {
     String res = "Some error occured";
     try {
@@ -29,11 +29,11 @@ class AuthMethod {
           password: password,
         );
         print(cred.user!.uid);
-        String photoUrl = await StorageMethods().uploadImageToStorage(
-          'profilePic',
-          file,
-          false,
-        );
+        // String photoUrl = await StorageMethods().uploadImageToStorage(
+        //   'profilePic',
+        //   file,
+        //   false,
+        // );
         //add user to database
         await _firestore.collection('users').doc(cred.user!.uid).set({
           'userName': userName,
@@ -42,9 +42,31 @@ class AuthMethod {
           'bio': bio,
           'followers': [],
           'following': [],
-          'photoUrl': photoUrl,
+          //'photoUrl': photoUrl,
         });
         res = 'success';
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  // Login screen
+  Future<String> LoginUser({
+    required String email,
+    required String password,
+  }) async {
+    String res = "Some error occured";
+    try {
+      if (email.isNotEmpty || password.isNotEmpty) {
+        await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+        res = "Success";
+      } else {
+        res = "please enter all the fields";
       }
     } catch (err) {
       res = err.toString();

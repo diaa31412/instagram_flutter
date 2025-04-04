@@ -20,6 +20,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _bioontroller = TextEditingController();
   Uint8List? _image;
+  bool _isLoading = false;
   @override
   void dispose() {
     // TODO: implement dispose
@@ -38,13 +39,22 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void SignUpUser() async {
+    setState(() {
+      _isLoading = true;
+    });
     String res = await AuthMethod().signupUser(
       email: _emailController.text,
       password: _passController.text,
       userName: _userNameController.text,
       bio: _bioontroller.text,
-      file: _image!,
+      // file: _image!,
     );
+    setState(() {
+      _isLoading = false;
+    });
+    if (res != 'success') {
+      showSnackBar(res, context);
+    }
   }
 
   @override
@@ -81,7 +91,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     bottom: -10,
                     left: 80,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: selectImage,
                       icon: Icon(Icons.add_a_photo),
                     ),
                   ),
@@ -115,18 +125,29 @@ class _SignupScreenState extends State<SignupScreen> {
               SizedBox(height: 64),
               InkWell(
                 onTap: SignUpUser,
-                child: Container(
-                  child: Text('SignUp'),
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  decoration: ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                    color: blueColor,
-                  ),
-                ),
+                child:
+                    _isLoading
+                        ? Container(
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: primaryColor,
+                            ),
+                          ),
+                        )
+                        : Container(
+                          child: Text('SignUp'),
+                          width: double.infinity,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(4),
+                              ),
+                            ),
+                            color: blueColor,
+                          ),
+                        ),
               ),
               SizedBox(height: 12),
               Flexible(flex: 2, child: Container()),

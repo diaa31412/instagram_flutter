@@ -13,10 +13,10 @@ void main() async {
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: FirebaseOptions(
-        apiKey: "AIzaSyCY41zCG9Qxmb0Cot-cUdHUtvy8pLKiyow",
-        appId: "1:372601830544:web:623224175ed6a80d7d2c15",
-        messagingSenderId: "372601830544",
-        projectId: "instagram-3b14a",
+        apiKey: "AIzaSyAyxO4zIG0GVpPR9qnUEcXxQsxVnwNztUs",
+        appId: "1:178357776505:web:3398401857af9d4871e4a8",
+        messagingSenderId: "178357776505",
+        projectId: "nstagram-c23cb",
       ),
     );
   } else {
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
       //   mobileScreenLayout: MobileScreenLayout(),
 
       // ),
-      home: SignupScreen(),
+      home: LogInScreen(),
     );
   }
 }
