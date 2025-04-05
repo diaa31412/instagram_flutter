@@ -25,7 +25,7 @@ class AuthMethod {
     required String password,
     required String userName,
     required String bio,
-    // required Uint8List file,
+    required Uint8List file,
   }) async {
     String res = "Some error occured";
     try {
@@ -38,12 +38,12 @@ class AuthMethod {
           email: email,
           password: password,
         );
-        print(cred.user!.uid);
-        // String photoUrl = await StorageMethods().uploadImageToStorage(
-        //   'profilePic',
-        //   file,
-        //   false,
-        // );
+        // print(cred.user!.uid);
+        String photoUrl = await StorageMethods().uploadImageToStorage(
+          'profilePic',
+          file,
+          false,
+        );
         //add user to database
 
         model.User user = model.User(
@@ -53,7 +53,7 @@ class AuthMethod {
           bio: bio,
           followers: [],
           following: [],
-          // photoUrl: photoUrl,
+          photoUrl: photoUrl,
         );
 
         await _firestore

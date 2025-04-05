@@ -36,7 +36,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void selectImage() async {
-    Uint8List im = await pickImage(ImageSource.gallery);
+    Uint8List im = await pickImage(ImageSource.camera);
     setState(() {
       _image = im;
     });
@@ -51,23 +51,31 @@ class _SignupScreenState extends State<SignupScreen> {
       password: _passController.text,
       userName: _userNameController.text,
       bio: _bioontroller.text,
-      // file: _image!,
+      file: _image!,
     );
-    setState(() {
-      _isLoading = false;
-    });
-    if (res != 'success') {
-      showSnackBar(res, context);
+    if (res == "Success") {
+      setState(() {
+        _isLoading = false;
+      });
+      if (context.mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder:
+                (context) => const ResponsiveLaout(
+                  mobileScreenLayout: MobileScreenLayout(),
+                  webScreenLayout: WebScreenLayout(),
+                ),
+          ),
+        );
+      }
     } else {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder:
-              (context) => ResponsiveLaout(
-                webScreenLayout: WebScreenLayout(),
-                mobileScreenLayout: MobileScreenLayout(),
-              ),
-        ),
-      );
+      setState(() {
+        _isLoading = false;
+      });
+      // show the error
+      if (context.mounted) {
+        showSnackBar(res, context);
+      }
     }
   }
 

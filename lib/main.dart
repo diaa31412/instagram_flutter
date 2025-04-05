@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
               );
             }
             // when we dont connection will return login page
-            return LogInScreen();
+            return SignupScreen();
           },
         ),
       ),
