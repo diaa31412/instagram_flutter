@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_flutter/providers/userProvider.dart';
 import 'package:instagram_flutter/screens/addScreenPost.dart';
+import 'package:instagram_flutter/screens/feedScreen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:instagram_flutter/models/user.dart' as model;
@@ -58,7 +59,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     return Scaffold(
       body: PageView(
         children: [
-          Center(child: Text('feed')),
+          FeedScreen(),
           Center(child: Text('search')),
           AddPostScreen(),
           Text('notification'),
