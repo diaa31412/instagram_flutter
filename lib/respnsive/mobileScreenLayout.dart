@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_flutter/providers/userProvider.dart';
+import 'package:instagram_flutter/screens/addScreenPost.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:instagram_flutter/models/user.dart' as model;
@@ -48,9 +49,9 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     final userProvider = Provider.of<UserProvider>(context);
 
     // التحقق من تحميل البيانات
-    if (userProvider.getUser == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    // if (userProvider.getUser == null) {
+    //   return const Center(child: CircularProgressIndicator());
+    // }
 
     model.User user = userProvider.getUser;
 
@@ -59,7 +60,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         children: [
           Center(child: Text('feed')),
           Center(child: Text('search')),
-          Text('add post'),
+          AddPostScreen(),
           Text('notification'),
           Text('profile'),
         ],
