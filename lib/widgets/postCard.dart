@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_flutter/models/user.dart' as model;
 
 import 'package:instagram_flutter/providers/userProvider.dart';
+import 'package:instagram_flutter/resources/firestoreMethod.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:instagram_flutter/widgets/likeAnimation.dart';
 import 'package:intl/intl.dart';
@@ -87,7 +88,12 @@ class _PostCardState extends State<PostCard> {
           ),
           // Image Section
           GestureDetector(
-            onDoubleTap: () {
+            onDoubleTap: () async {
+              await FirestoreMethods().likePost(
+                widget.snap['postId'],
+                user.uid,
+                widget.snap['likes'],
+              );
               setState(() {
                 isLikeAnimating = true;
               });
@@ -104,7 +110,7 @@ class _PostCardState extends State<PostCard> {
                   ),
                 ),
                 AnimatedOpacity(
-                  duration: Duration(microseconds: 200),
+                  duration: Duration(milliseconds: 200),
                   opacity: isLikeAnimating ? 1 : 0,
                   child: LikeAnimation(
                     child: Icon(Icons.favorite, color: Colors.white, size: 120),
@@ -128,8 +134,17 @@ class _PostCardState extends State<PostCard> {
                 smalLike: true,
 
                 child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.favorite, color: Colors.red),
+                  onPressed: () async {
+                    await FirestoreMethods().likePost(
+                      widget.snap['postId'],
+                      user.uid,
+                      widget.snap['likes'],
+                    );
+                  },
+                  icon:
+                      widget.snap['likes'].contains(user.uid)
+                          ? Icon(Icons.favorite, color: Colors.red)
+                          : Icon(Icons.favorite_border, color: Colors.white),
                 ),
               ),
               IconButton(onPressed: () {}, icon: Icon(Icons.comment_outlined)),
